@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/franciscobonand/pokedex/internal/entity"
+	"github.com/franciscobonand/bootdev/pokedex/internal/entity"
 )
 
 func (c CLI) mapCmd(cfg *entity.Config) Command {

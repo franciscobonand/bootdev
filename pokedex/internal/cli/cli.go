@@ -1,9 +1,9 @@
 package cli
 
 import (
-	"github.com/franciscobonand/pokedex/internal/cache"
-	"github.com/franciscobonand/pokedex/internal/client"
-	"github.com/franciscobonand/pokedex/internal/entity"
+	"github.com/franciscobonand/bootdev/pokedex/internal/cache"
+	"github.com/franciscobonand/bootdev/pokedex/internal/client"
+	"github.com/franciscobonand/bootdev/pokedex/internal/entity"
 )
 
 type CLI struct {

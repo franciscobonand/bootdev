@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/franciscobonand/pokedex/internal/cache"
-	cli "github.com/franciscobonand/pokedex/internal/cli"
-	"github.com/franciscobonand/pokedex/internal/client"
+	"github.com/franciscobonand/bootdev/pokedex/internal/cache"
+	cli "github.com/franciscobonand/bootdev/pokedex/internal/cli"
+	"github.com/franciscobonand/bootdev/pokedex/internal/client"
 )
 
 func main() {
