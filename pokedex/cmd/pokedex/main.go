@@ -46,9 +46,6 @@ func main() {
 }
 
 func sanitizeInput(s string) []string {
-	cmds := []string{}
-	for _, cmd := range strings.Fields(s) {
-		cmds = append(cmds, strings.ToLower(cmd))
-	}
-	return cmds
+	cmds := strings.ToLower(s)
+	return strings.Fields(cmds)
 }
