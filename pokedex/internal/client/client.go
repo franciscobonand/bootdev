@@ -17,6 +17,9 @@ func (h HTTP) Get(url string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, fmt.Errorf("not found")
+	}
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}

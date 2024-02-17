@@ -31,5 +31,6 @@ func NewCLI(httpClient *client.HTTP, c *cache.Cache) *CLI {
 	app.Commands["explore"] = app.exploreCmd(cfg)
 	app.Commands["catch"] = app.catchCmd(cfg)
 	app.Commands["inspect"] = app.inspectCmd(cfg)
+	app.Commands["pokedex"] = app.pokedexCmd(cfg)
 	return app
 }
