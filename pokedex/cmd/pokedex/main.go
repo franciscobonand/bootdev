@@ -24,20 +24,31 @@ func main() {
 			fmt.Println("Error reading input:", err)
 			return
 		}
-		cmd := sanitizeInput(input.Text())
+		cmds := sanitizeInput(input.Text())
+		if len(cmds) == 0 {
+			continue
+		}
+		cmd := cmds[0]
+		args := cmds[1:]
 		if c, ok := app.Commands[cmd]; ok {
-			if err := c.Callback(); err != nil {
+			if len(args) != c.Args {
+				fmt.Printf("Command '%s' requires %d arguments\n", cmd, c.Args)
+				continue
+			}
+			if err := c.Callback(args...); err != nil {
 				fmt.Println("Error executing command:", err)
 			}
 			continue
 		}
-		fmt.Printf("Unknown command '%s'\n", cmd)
+		fmt.Printf("Unknown command '%s'\n", cmds)
 		app.Commands["help"].Callback()
 	}
 }
 
-func sanitizeInput(s string) string {
-	cmd := strings.Fields(s)[0]
-	cmd = strings.ToLower(cmd)
-	return cmd
+func sanitizeInput(s string) []string {
+	cmds := []string{}
+	for _, cmd := range strings.Fields(s) {
+		cmds = append(cmds, strings.ToLower(cmd))
+	}
+	return cmds
 }

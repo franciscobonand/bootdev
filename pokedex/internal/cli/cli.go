@@ -15,7 +15,8 @@ type CLI struct {
 type Command struct {
 	Name        string
 	Description string
-	Callback    func() error
+	Callback    func(...string) error
+	Args        int
 }
 
 func NewCLI(httpClient *client.HTTP, c *cache.Cache) *CLI {
@@ -27,5 +28,6 @@ func NewCLI(httpClient *client.HTTP, c *cache.Cache) *CLI {
 	app.Commands["exit"] = app.exitCmd()
 	app.Commands["map"] = app.mapCmd(cfg)
 	app.Commands["mapb"] = app.mapbackCmd(cfg)
+	app.Commands["explore"] = app.exploreCmd(cfg)
 	return app
 }

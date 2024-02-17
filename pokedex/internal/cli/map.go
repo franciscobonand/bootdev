@@ -12,8 +12,7 @@ func (c CLI) mapCmd(cfg *entity.Config) Command {
 	return Command{
 		Name:        "map",
 		Description: "Lists 20 locations of the Pokemon world",
-		Callback: func() error {
-			var val []byte
+		Callback: func(_ ...string) error {
 			url := cfg.NextLocation
 			val, next, prev, err := c.handleLocations(url)
 			if err != nil {
@@ -31,7 +30,7 @@ func (c CLI) mapbackCmd(cfg *entity.Config) Command {
 	return Command{
 		Name:        "mapb",
 		Description: "Lists previous 20 locations of the Pokemon world",
-		Callback: func() error {
+		Callback: func(_ ...string) error {
 			if cfg.PreviousLocation == nil {
 				return errors.New("no previous locations")
 			}

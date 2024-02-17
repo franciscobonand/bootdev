@@ -6,7 +6,7 @@ func (c CLI) helpCmd() Command {
 	return Command{
 		Name:        "help",
 		Description: "Prints this help message",
-		Callback: func() error {
+		Callback: func(_ ...string) error {
 			fmt.Println()
 			fmt.Println("Welcome to the Pokedex!")
 			fmt.Println("Usage:")
