@@ -30,5 +30,6 @@ func NewCLI(httpClient *client.HTTP, c *cache.Cache) *CLI {
 	app.Commands["mapb"] = app.mapbackCmd(cfg)
 	app.Commands["explore"] = app.exploreCmd(cfg)
 	app.Commands["catch"] = app.catchCmd(cfg)
+	app.Commands["inspect"] = app.inspectCmd(cfg)
 	return app
 }
