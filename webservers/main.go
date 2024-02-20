@@ -3,14 +3,26 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"github.com/franciscobonand/bootdev/webservers/handlers"
+	"github.com/go-chi/chi/v5"
 )
 
 func main() {
-	mux := http.NewServeMux()
-	mux.Handle("/app/", http.StripPrefix("/app/", http.FileServer(http.Dir("."))))
-	mux.Handle("/healthz", readinessHandler())
+	cfg := &handlers.APIConfig{}
 
-	corsMux := middlewareCors(mux)
+	r := chi.NewRouter()
+	fsHandler := cfg.MiddlewareMetricsInc(handlers.Fileserver())
+	r.Handle("/app", fsHandler)
+	r.Handle("/app/*", fsHandler)
+
+	apiRouter := chi.NewRouter()
+	apiRouter.Get("/healthz", handlers.Readiness())
+	apiRouter.Get("/metrics", cfg.Metrics())
+	apiRouter.Get("/reset", cfg.ResetMetrics())
+
+	r.Mount("/api", apiRouter)
+	corsMux := handlers.MiddlewareCors(r)
 
 	srv := &http.Server{
 		Addr:    ":8080",
@@ -20,25 +32,4 @@ func main() {
 	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("Server error: %v", err)
 	}
-}
-
-func middlewareCors(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-		next.ServeHTTP(w, r)
-	})
-}
-
-func readinessHandler() http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
-	})
 }
